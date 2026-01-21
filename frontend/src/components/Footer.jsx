@@ -30,7 +30,7 @@ const Footer = () => {
         </div>
         <div>
             <hr />
-            <p className='py-5 text-sm text-center'>Copyright 2024@ mohan.com - All Right Reserved</p>
+            <p className='py-5 text-sm text-center'>&copy; Copyright {new Date().getFullYear()} mohanbadiger.site - All Right Reserved</p>
         </div>
     </div>
   )
