@@ -55,25 +55,19 @@ src/
 ### Home Page
 <img width="1916" height="906" alt="Home Page" src="https://github.com/user-attachments/assets/8e9853c7-e4fe-44e7-b9bb-6ac4221cd927" />
 
-### Product Collections
 <img width="1912" height="902" alt="Collections" src="https://github.com/user-attachments/assets/071b4de4-ea1f-4ba6-838d-fcf32e86d7b3" />
 
-### Product Listing
 <img width="1916" height="749" alt="Product Listing" src="https://github.com/user-attachments/assets/d817a2c9-1889-4480-a3be-7cbeefb952a5" />
 
-### Product Details
 <img width="1909" height="811" alt="Product Details" src="https://github.com/user-attachments/assets/a24f8489-5f95-4833-a7db-3e12bccbc4ca" />
 
-### Cart Page
 <img width="1910" height="899" alt="Cart Page" src="https://github.com/user-attachments/assets/f91e64bb-3afc-4866-b899-c9b5d967e2e5" />
 
 ### Search & Filters
 <img width="1919" height="905" alt="Search" src="https://github.com/user-attachments/assets/ae19ccfb-4af6-470d-8199-56e6313cc7d6" />
 
-### Authentication Page
 <img width="1914" height="900" alt="Login Page" src="https://github.com/user-attachments/assets/d741d4f4-a820-4b32-8a4f-a651ec28556e" />
 
-### Responsive Design
 <img width="1915" height="811" alt="Responsive UI" src="https://github.com/user-attachments/assets/4e110662-2b4a-4103-9192-83ac970b522d" />
 
 <img width="1916" height="824" alt="Mobile View" src="https://github.com/user-attachments/assets/7686951e-26f0-4e9e-9d93-eb94a783314e" />
