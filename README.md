@@ -1,18 +1,18 @@
-# 👗 Online Clothing Store – E-Commerce Frontend
+# Online Clothing Store – E-Commerce Frontend
 
 A modern, scalable, and fully responsive **E-commerce frontend application** built with **React** and **Tailwind CSS**.  
 This project focuses on delivering a high-quality **UI/UX**, smooth navigation, and performance-optimized user interactions, following industry best practices.
 
 ---
 
-## 🚀 Project Overview
+##  Project Overview
 
 The Online Clothing Store frontend provides a seamless shopping experience with elegant product displays, intuitive navigation, and responsive layouts across all screen sizes.  
 It is designed as a **production-ready frontend foundation** for an e-commerce platform.
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 - 🛍️ Dynamic product listing with category-based browsing  
 - 🔍 Smooth multi-page navigation using React Router  
@@ -122,4 +122,5 @@ This project is licensed under the MIT License.
 👨‍💻 Developer
 
 Mohan Badiger
-📧 Email: mohanbadiger250@gmail.com
+Email: mohanbadiger250@gmail.com
+Portfolio : mohanbadiger.site
