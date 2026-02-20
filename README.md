@@ -92,26 +92,6 @@ npm install
 Run the Project
 npm run dev
 
-
-The application will run at:
-
-http://localhost:5173
-
-
-Future Enhancements
-
-🛒 Persistent shopping cart
-
-🔐 User authentication & authorization
-
-💳 Payment gateway integration
-
-📦 Backend & database integration
-
-🔍 Advanced product search & filters
-
-🤝 Contributing
-
 Contributions are welcome!
 Fork the repository and submit a pull request with meaningful commit messages.
 
