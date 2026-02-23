@@ -1,4 +1,4 @@
-# Online Clothing Store – E-Commerce Frontend
+## Online Clothing Store – E-Commerce Frontend
 
 A modern, scalable, and fully responsive **E-commerce frontend application** built with **React** and **Tailwind CSS**.  
 This project focuses on delivering a high-quality **UI/UX**, smooth navigation, and performance-optimized user interactions, following industry best practices.
