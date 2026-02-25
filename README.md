@@ -19,8 +19,7 @@ It is designed as a **production-ready frontend foundation** for an e-commerce p
 - 📱 Fully responsive design (mobile, tablet, desktop)  
 - ⚡ High-performance build using Vite  
 - 🎨 Modern UI built with Tailwind CSS  
-- 🔔 Toast notifications for user actions  
-- 🧩 Reusable, modular React components  
+- 🔔 Toast notifications for user actions
 
 ---
 
