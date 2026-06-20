@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets';
 import { useLocation } from 'react-router-dom';
@@ -15,7 +15,7 @@ const SearchBox = () => {
         }else{
             setVisible(false);
         }
-    },[location])
+    },[location, showSearch])
 
   return showSearch && visible? (
     <div className='border-t border-b bg-gray-50 text-center '>
@@ -28,4 +28,4 @@ const SearchBox = () => {
   ): null
 }
 
-export default SearchBox
+export default SearchBox;
