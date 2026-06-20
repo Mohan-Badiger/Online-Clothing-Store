@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { assets } from '../assets/assets'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext'
@@ -6,7 +6,7 @@ import { ShopContext } from '../context/ShopContext'
 const Navbar = () => {
 
   const [visible, setVisible] = useState(false)
-  const { setShowSearch, getCartCount } = useContext(ShopContext)
+  const { setShowSearch, getCartCount, token, logout } = useContext(ShopContext)
   const navigate = useNavigate()
 
   const handleSearchClick = () => {
@@ -62,16 +62,21 @@ const Navbar = () => {
         />
 
         <div className='group relative'>
-          <Link to='/login'>
-            <img className='w-5 cursor-pointer' src={assets.profile_icon} alt='' />
-          </Link>
-          <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
-            <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
-              <p className='cursor-pointer hover:text-black'>My Profile</p>
-              <p className='cursor-pointer hover:text-black'>Orders</p>
-              <p className='cursor-pointer hover:text-black'>Log out</p>
+          <img 
+            onClick={() => token ? null : navigate('/login')} 
+            className='w-5 cursor-pointer' 
+            src={assets.profile_icon} 
+            alt='' 
+          />
+          {token && (
+            <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
+              <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
+                <p className='cursor-pointer hover:text-black'>My Profile</p>
+                <p onClick={() => navigate('/orders')} className='cursor-pointer hover:text-black'>Orders</p>
+                <p onClick={logout} className='cursor-pointer hover:text-black'>Log out</p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <Link to='/cart' className='relative'>
@@ -93,7 +98,7 @@ const Navbar = () => {
       <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? 'w-full' : 'w-0'}`}>
         <div className='flex flex-col text-gray-600'>
           <div onClick={() => setVisible(false)} className='flex items-center gap-4 p-3 cursor-pointer'>
-            <img className='h-4 rotate-490' src={assets.dropdown_icon} alt='' />
+            <img className='h-4 rotate-180' src={assets.dropdown_icon} alt='' />
             <p>Back</p>
           </div>
           <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/'>Home</NavLink>
@@ -107,4 +112,5 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default Navbar;
+
