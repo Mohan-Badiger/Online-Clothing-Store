@@ -54,19 +54,23 @@ const ShopContextProvider = (props) => {
     });
 
     const login = (email, password) => {
-        const mockToken = "mock-jwt-token-" + email + "-" + Date.now();
-        setToken(mockToken);
-        localStorage.setItem("token", mockToken);
-        toast.success("Logged In Successfully!");
-        navigate("/");
+        if (email && password) {
+            const mockToken = "mock-jwt-token-" + email + "-" + Date.now();
+            setToken(mockToken);
+            localStorage.setItem("token", mockToken);
+            toast.success("Logged In Successfully!");
+            navigate("/");
+        }
     };
 
     const register = (name, email, password) => {
-        const mockToken = "mock-jwt-token-" + email + "-" + Date.now();
-        setToken(mockToken);
-        localStorage.setItem("token", mockToken);
-        toast.success("Account Created Successfully!");
-        navigate("/");
+        if (name && email && password) {
+            const mockToken = "mock-jwt-token-" + email + "-" + Date.now();
+            setToken(mockToken);
+            localStorage.setItem("token", mockToken);
+            toast.success("Account Created Successfully!");
+            navigate("/");
+        }
     };
 
     const logout = () => {
