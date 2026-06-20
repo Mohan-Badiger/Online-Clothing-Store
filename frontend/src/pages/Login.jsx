@@ -1,11 +1,22 @@
-import React, { useState } from 'react'
+import { useContext, useState } from 'react'
+import { ShopContext } from '../context/ShopContext';
 
 const Login = () => {
 
   const [currentState, setCurrentState] = useState('Sign Up');
+  const { login, register } = useContext(ShopContext);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const onSubmitHandler = (event)=>{
     event.preventDefault();
+    if (currentState === 'Login') {
+      login(email, password);
+    } else {
+      register(name, email, password);
+    }
   }
 
   return (
@@ -14,9 +25,9 @@ const Login = () => {
             <p className='prata-regular text-3xl'>{currentState}</p>
             <hr className='border-none h-[1.5px] w-8 bg-gray-800' />
         </div>
-        {currentState === 'Login' ? '' : <input type="text" className='w-full px-3 py-2 border border-gray-800' placeholder='Name'  required/> }
-        <input type="email" className='w-full px-3 py-2 border border-gray-800' placeholder='Email' required />
-        <input type="password" className='w-full px-3 py-2 border border-gray-800' placeholder='Password' required />
+        {currentState === 'Login' ? '' : <input type="text" value={name} onChange={(e)=>setName(e.target.value)} className='w-full px-3 py-2 border border-gray-800' placeholder='Name'  required/> }
+        <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} className='w-full px-3 py-2 border border-gray-800' placeholder='Email' required />
+        <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} className='w-full px-3 py-2 border border-gray-800' placeholder='Password' required />
         <div className='w-full flex justify-between text-sm mt-[-8px]'>
         <p className='cursor-pointer'>Forgot your password</p>
         {
@@ -31,4 +42,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;
