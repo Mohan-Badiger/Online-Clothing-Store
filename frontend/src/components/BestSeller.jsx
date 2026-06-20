@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {ShopContext} from '../context/ShopContext'
 import Title from './Title'
 import ProductItem from './ProductItem';
@@ -11,7 +11,7 @@ const BestSeller = () => {
     useEffect(() => {
       const bestProduct = products.filter((item)=>(item.bestseller))
       setBestSeller(bestProduct.slice(0,5))
-    }, [])
+    }, [products])
     
 
   return (
@@ -32,4 +32,4 @@ const BestSeller = () => {
   )
 }
 
-export default BestSeller
+export default BestSeller;
