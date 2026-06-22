@@ -27,9 +27,9 @@ const PlaceOrder = () => {
     setFormData(data => ({ ...data, [name]: value }));
   };
 
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
-    const isSuccess = placeOrder(formData, method);
+    const isSuccess = await placeOrder(formData, method);
     if (isSuccess) {
       navigate('/orders');
     }
