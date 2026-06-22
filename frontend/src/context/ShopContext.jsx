@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useEffect, useState, useCallback } from "react";
+import { createContext, useEffect, useState, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { imageMap } from "../assets/assets";
 import { toast } from 'react-toastify';
@@ -98,7 +98,7 @@ const ShopContextProvider = (props) => {
     }, [backendUrl]);
 
     // Sync local storage cart to database
-    const syncLocalCartWithDB = async (authToken) => {
+    const syncLocalCartWithDB = useCallback(async (authToken) => {
         try {
             const savedCart = localStorage.getItem("cartItems");
             const localCart = savedCart ? JSON.parse(savedCart) : {};
@@ -115,7 +115,7 @@ const ShopContextProvider = (props) => {
         } catch (error) {
             console.error("Cart sync failed:", error);
         }
-    };
+    }, [backendUrl]);
 
     // Initialize products load
     useEffect(() => {
@@ -139,7 +139,7 @@ const ShopContextProvider = (props) => {
         }
     }, [token, getUserCart, getUserOrders]);
 
-    const login = async (email, password) => {
+    const login = useCallback(async (email, password) => {
         try {
             const response = await axios.post(backendUrl + '/api/user/login', { email, password });
             if (response.data.success) {
@@ -156,9 +156,9 @@ const ShopContextProvider = (props) => {
             console.error(error);
             toast.error(error.response?.data?.message || "Login failed");
         }
-    };
+    }, [backendUrl, navigate, syncLocalCartWithDB]);
 
-    const register = async (name, email, password) => {
+    const register = useCallback(async (name, email, password) => {
         try {
             const response = await axios.post(backendUrl + '/api/user/register', { name, email, password });
             if (response.data.success) {
@@ -175,37 +175,37 @@ const ShopContextProvider = (props) => {
             console.error(error);
             toast.error(error.response?.data?.message || "Registration failed");
         }
-    };
+    }, [backendUrl, navigate, syncLocalCartWithDB]);
 
-    const logout = () => {
+    const logout = useCallback(() => {
         setToken("");
         localStorage.removeItem("token");
         setCartItems({});
         setOrders([]);
         toast.success("Logged Out Successfully!");
         navigate("/login");
-    };
+    }, [navigate]);
 
-    const addToCart = async (itemId, size) => {
+    const addToCart = useCallback(async (itemId, size) => {
         if (!size) {
             toast.error('Select Product Size');
             return;
         }
 
-        let cartData = structuredClone(cartItems);
-
-        if (cartData[itemId]) {
-            if (cartData[itemId][size]) {
-                cartData[itemId][size] += 1;
+        setCartItems(prev => {
+            let cartData = structuredClone(prev);
+            if (cartData[itemId]) {
+                if (cartData[itemId][size]) {
+                    cartData[itemId][size] += 1;
+                } else {
+                    cartData[itemId][size] = 1;
+                }
             } else {
+                cartData[itemId] = {};
                 cartData[itemId][size] = 1;
             }
-        }
-        else {
-            cartData[itemId] = {};
-            cartData[itemId][size] = 1;
-        }
-        setCartItems(cartData);
+            return cartData;
+        });
 
         if (token) {
             try {
@@ -215,9 +215,9 @@ const ShopContextProvider = (props) => {
                 toast.error(error.message);
             }
         }
-    }
+    }, [token, backendUrl]);
 
-    const getCartCount = () => {
+    const getCartCount = useCallback(() => {
         let totalCount = 0;
         for (const items in cartItems) {
             for (const item in cartItems[items]) {
@@ -231,24 +231,24 @@ const ShopContextProvider = (props) => {
             }
         }
         return totalCount;
-    }
+    }, [cartItems]);
 
-    const updateQuantity = async (itemId, size, quantity) => {
-        let cartData = structuredClone(cartItems);
-        
-        if (!cartData[itemId]) {
-            cartData[itemId] = {};
-        }
-        cartData[itemId][size] = quantity;
-        
-        if (quantity <= 0) {
-            delete cartData[itemId][size];
-        }
-        if (Object.keys(cartData[itemId]).length === 0) {
-            delete cartData[itemId];
-        }
-        
-        setCartItems(cartData);
+    const updateQuantity = useCallback(async (itemId, size, quantity) => {
+        setCartItems(prev => {
+            let cartData = structuredClone(prev);
+            if (!cartData[itemId]) {
+                cartData[itemId] = {};
+            }
+            cartData[itemId][size] = quantity;
+            
+            if (quantity <= 0) {
+                delete cartData[itemId][size];
+            }
+            if (Object.keys(cartData[itemId]).length === 0) {
+                delete cartData[itemId];
+            }
+            return cartData;
+        });
 
         if (token) {
             try {
@@ -258,17 +258,21 @@ const ShopContextProvider = (props) => {
                 toast.error(error.message);
             }
         }
-    }
+    }, [token, backendUrl]);
 
-    const getCartAmount = () => {
+    const productsMap = useMemo(() => {
+        return new Map(products.map(product => [product._id, product]));
+    }, [products]);
+
+    const getCartAmount = useCallback(() => {
         let totalAmount = 0;
         for (const items in cartItems) {
-            let itemInfo = products.find((product) => product._id === items);
+            let itemInfo = productsMap.get(items);
             if (!itemInfo) continue;
             for (const item in cartItems[items]) {
                 try {
                     if (cartItems[items][item] > 0) {
-                        totalAmount += itemInfo.price * cartItems[items][item]
+                        totalAmount += itemInfo.price * cartItems[items][item];
                     }
                 } catch (e) {
                     console.error(e);
@@ -276,9 +280,9 @@ const ShopContextProvider = (props) => {
             }
         }
         return totalAmount;
-    }
+    }, [cartItems, productsMap]);
 
-    const placeOrder = async (address, method) => {
+    const placeOrder = useCallback(async (address, method) => {
         if (!token) {
             toast.error("Please login to place an order");
             return false;
@@ -305,9 +309,9 @@ const ShopContextProvider = (props) => {
             toast.error(error.message);
             return false;
         }
-    }
+    }, [token, backendUrl, getUserOrders]);
 
-    const value = {
+    const value = useMemo(() => ({
         products, currency, delivery_fee,
         search, setSearch, showSearch, setShowSearch,
         cartItems, addToCart,
@@ -315,7 +319,12 @@ const ShopContextProvider = (props) => {
         getCartAmount, navigate,
         orders, placeOrder,
         token, login, register, logout
-    }
+    }), [
+        products, currency, delivery_fee,
+        search, showSearch, cartItems, addToCart,
+        getCartCount, updateQuantity, getCartAmount, navigate,
+        orders, placeOrder, token, login, register, logout
+    ]);
 
     return (
         <ShopContext.Provider value={value}>
