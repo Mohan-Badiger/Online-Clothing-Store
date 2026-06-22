@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useMemo } from 'react'
 import {ShopContext} from '../context/ShopContext'
 import Title from './Title';
 import ProductItem from './ProductItem';
@@ -6,11 +6,9 @@ import ProductItem from './ProductItem';
 const LatestCollection = () => {
 
     const {products} = useContext(ShopContext);
-    const [latestProducts, setlatestProducts] = useState([]);
-
-    useEffect(()=>{
-        setlatestProducts(products.slice(0,10));
-    },[products])
+    const latestProducts = useMemo(() => {
+        return products.slice(0, 10);
+    }, [products]);
 
   return (
     <div className='my-10'>
