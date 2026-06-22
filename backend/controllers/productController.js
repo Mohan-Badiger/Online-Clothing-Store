@@ -3,7 +3,7 @@ import productModel from "../models/productModel.js";
 // List all products
 const listProducts = async (req, res) => {
     try {
-        const products = await productModel.find({});
+        const products = await productModel.find({}).lean();
         return res.json({ success: true, products });
     } catch (error) {
         console.error(error);

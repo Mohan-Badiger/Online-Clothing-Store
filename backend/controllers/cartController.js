@@ -5,8 +5,8 @@ const addToCart = async (req, res) => {
     try {
         const { userId, itemId, size } = req.body;
 
-        const userData = await userModel.findById(userId);
-        let cartData = userData.cartData || {};
+        const userData = await userModel.findById(userId).select('cartData').lean();
+        let cartData = userData?.cartData || {};
 
         if (cartData[itemId]) {
             if (cartData[itemId][size]) {
@@ -32,8 +32,8 @@ const updateCart = async (req, res) => {
     try {
         const { userId, itemId, size, quantity } = req.body;
 
-        const userData = await userModel.findById(userId);
-        let cartData = userData.cartData || {};
+        const userData = await userModel.findById(userId).select('cartData').lean();
+        let cartData = userData?.cartData || {};
 
         if (!cartData[itemId]) {
             cartData[itemId] = {};
@@ -62,8 +62,8 @@ const getUserCart = async (req, res) => {
     try {
         const { userId } = req.body;
 
-        const userData = await userModel.findById(userId);
-        let cartData = userData.cartData || {};
+        const userData = await userModel.findById(userId).select('cartData').lean();
+        let cartData = userData?.cartData || {};
 
         return res.json({ success: true, cartData });
     } catch (error) {
@@ -77,8 +77,8 @@ const syncCart = async (req, res) => {
     try {
         const { userId, cartItems } = req.body;
 
-        const userData = await userModel.findById(userId);
-        let cartData = userData.cartData || {};
+        const userData = await userModel.findById(userId).select('cartData').lean();
+        let cartData = userData?.cartData || {};
 
         // Merge local storage cartItems into database cartData
         for (const itemId in cartItems) {

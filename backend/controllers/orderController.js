@@ -7,15 +7,19 @@ const placeOrder = async (req, res) => {
     try {
         const { userId, address, method } = req.body;
 
-        const userData = await userModel.findById(userId);
-        const cartData = userData.cartData || {};
+        const userData = await userModel.findById(userId).select('cartData').lean();
+        const cartData = userData?.cartData || {};
 
         const orderItems = [];
         let totalAmount = 0;
 
+        const itemIds = Object.keys(cartData);
+        const productsList = await productModel.find({ _id: { $in: itemIds } }).lean();
+        const productsMap = new Map(productsList.map(p => [p._id.toString(), p]));
+
         // Fetch all product details and construct order items
         for (const itemId in cartData) {
-            const productInfo = await productModel.findById(itemId);
+            const productInfo = productsMap.get(itemId);
             if (!productInfo) continue;
 
             for (const size in cartData[itemId]) {
@@ -72,7 +76,7 @@ const placeOrder = async (req, res) => {
 const userOrders = async (req, res) => {
     try {
         const { userId } = req.body;
-        const orders = await orderModel.find({ userId }).sort({ date: -1 });
+        const orders = await orderModel.find({ userId }).sort({ date: -1 }).lean();
         return res.json({ success: true, orders });
     } catch (error) {
         console.error(error);
