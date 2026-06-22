@@ -28,6 +28,12 @@ app.get("/", (req, res) => {
     res.send("API Working");
 });
 
+// Global Error Handler Middleware
+app.use((err, req, res, next) => {
+    console.error("Unhandled Error:", err.stack || err);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+});
+
 // Start Server
 app.listen(port, () => {
     console.log(`Server started on PORT : ${port}`);

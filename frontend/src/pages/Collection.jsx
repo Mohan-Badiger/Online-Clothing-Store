@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState, useMemo } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets';
 import Title from '../components/Title'
@@ -8,7 +8,6 @@ const Collection = () => {
 
   const {products, search, showSearch} = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
-  const [filterProducts,setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState('relevant')
@@ -31,7 +30,7 @@ const Collection = () => {
     }
   }
 
-  useEffect(() => {
+  const filterProducts = useMemo(() => {
     let productsCopy = products.slice();
 
     if (showSearch && search) {
@@ -52,7 +51,7 @@ const Collection = () => {
       productsCopy.sort((a, b) => b.price - a.price);
     }
 
-    setFilterProducts(productsCopy);
+    return productsCopy;
   }, [products, category, subCategory, search, showSearch, sortType]);
 
   return (

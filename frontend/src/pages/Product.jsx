@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
@@ -8,21 +8,19 @@ const Product = () => {
 
   const { productId } = useParams();
   const { products, currency, addToCart} = useContext(ShopContext);
-  const [productData, setProductData] = useState(false);
   const [image, setImage] = useState('')
   const [size, setSize] = useState('')
 
+  const productData = useMemo(() => {
+    return products.find((item) => item._id === productId);
+  }, [products, productId]);
+
   useEffect(() => {
-    const fetchProductData = () => {
-      const foundProduct = products.find((item) => item._id === productId);
-      if (foundProduct) {
-        setProductData(foundProduct);
-        setImage(foundProduct.image[0]);
-      }
-    };
-    
-    fetchProductData();
-  }, [productId, products])
+    if (productData) {
+      setImage(productData.image[0] || '');
+      setSize('');
+    }
+  }, [productData]);
 
   return productData ? (
     <div className='border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100 '>
